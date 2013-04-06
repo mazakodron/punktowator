@@ -2,13 +2,15 @@ from svg.path import *
 import xml.etree.ElementTree as et
 
 class Mazakodron:
-	scalefactor = float(1.0)
+	scaleFactor = float(1.0)
 	sheetWidth = 0
 	sheetHeight = 0
 	docWidth = 0
 	docHeight = 0
 	tree = None
 	paths = []
+	xoffset = 0
+	yoffset = 0
 
 	def __init__(self, paperFormat = 'A4', filename=None):
 		if(filename != None):
@@ -42,7 +44,13 @@ class Mazakodron:
 				self.sheetWidth, self.sheetHeight = self.sheetHeight, self.sheetWidth
 			'''print float(self.sheetWidth)/float(self.docWidth)
 			print float(self.sheetHeight)/float(self.docHeight)'''
-			scaleFactor = min(float(self.sheetWidth)/float(self.docWidth), float(self.sheetHeight)/float(self.docHeight))
+			self.scaleFactor = min(float(self.sheetWidth)/float(self.docWidth), float(self.sheetHeight)/float(self.docHeight))
+			self.docWidth *= self.scaleFactor
+			self.docHeight *= self.scaleFactor
+			self.xoffset = abs(self.docWidth-self.sheetWidth)/2
+			self.yoffset = abs(self.docHeight - self.sheetHeight)/2
+			if self.docWidth > self.docHeight:
+				self.xoffset,self.yoffset = self.yoffset,self.xoffset
 		except (AttributeError, TypeError):
 			raise AssertionError('No chyba nie. svgFile powinno byc ciagiem znakow')
 	def loadPaths(self):
@@ -52,6 +60,22 @@ class Mazakodron:
 				elements.append(el)
 		self.paths = list(parse_path(el.get('d')) for el in elements)
 		''' przegladac sciezki i dla kazdego punktu *= scaleFactor '''
+		for path in self.paths: # skalujemy obraz do wielkosci arkusza po ktorym bedziemy rysowac
+			for el in path:
+				ptype = str(type(el))
+				ptype = ptype[ptype.rfind('.')+1:ptype.rfind("'")]
+				el.start *= self.scaleFactor
+				el.end *= self.scaleFactor
+				if ptype == "CubicBezier":
+					#el.start *= scaleFactor
+					el.control1 *= self.scaleFactor
+					el.control2 *= self.scaleFactor
+					#el.end *= scaleFactor
+				elif ptype == "QuadraticBezier":
+					el.control *= self.scaleFactor
+				elif ptype == "Arc":
+					el.radius *= scaleFactor
+				#print ptype
 	def getPaths(self):
 		return self.paths
 	def getDocDims(self):
