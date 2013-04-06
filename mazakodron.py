@@ -10,7 +10,7 @@ class Mazakodron:
 	tree = None
 	paths = []
 
-	def __init__(self, paperFormat = 'A4', filename='None'):
+	def __init__(self, paperFormat = 'A4', filename=None):
 		if(filename != None):
 			self.load(filename)
 		if paperFormat == 'A5':
@@ -36,8 +36,13 @@ class Mazakodron:
 					elements.append(el)
 			paths = list(parse_path(el.get('d')) for el in elements)
 			"""
-			docWidth = self.tree.getroot().get('width')
-			docHeight = self.tree.getroot().get('height')
+			self.docWidth = int(self.tree.getroot().get('width'))
+			self.docHeight = int(self.tree.getroot().get('height'))
+			if self.docWidth > self.docHeight:
+				self.sheetWidth, self.sheetHeight = self.sheetHeight, self.sheetWidth
+			'''print float(self.sheetWidth)/float(self.docWidth)
+			print float(self.sheetHeight)/float(self.docHeight)'''
+			scaleFactor = min(float(self.sheetWidth)/float(self.docWidth), float(self.sheetHeight)/float(self.docHeight))
 		except (AttributeError, TypeError):
 			raise AssertionError('No chyba nie. svgFile powinno byc ciagiem znakow')
 	def loadPaths(self):
@@ -46,6 +51,7 @@ class Mazakodron:
 			if el.tag.find('path') != -1:
 				elements.append(el)
 		self.paths = list(parse_path(el.get('d')) for el in elements)
+		''' przegladac sciezki i dla kazdego punktu *= scaleFactor '''
 	def getPaths(self):
 		return self.paths
 	def getDocDims(self):
