@@ -205,7 +205,7 @@ if __name__ == "__main__":
 				# tutaj dodac offsety na x i y (mazak.xoffset, mazak.yoffset)
 				# i znak w zaleznosci od tego czy pierwotne > nowe czy nie
 
-			print "RYSUJ"
+			print "OPUSC"
 			ptype = str(type(el))
 			ptype = ptype[ptype.rfind('.')+1:ptype.rfind("'")]
 			points = []
