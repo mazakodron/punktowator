@@ -65,7 +65,7 @@ class Mazakodron:
 				elif ptype == "QuadraticBezier":
 					el.control *= self.scaleFactor	# czy to sie kiedys skonczy?
 				elif ptype == "Arc":
-					el.radius *= scaleFactor	# tak, to ostatni!
+					el.radius *= self.scaleFactor	# tak, to ostatni!
 				
 	def getPaths(self):	# zwroc liste sciezek
 		return self.paths
