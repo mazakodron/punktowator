@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <_name>Mazakodron 3000 - Punktowator 8000</_name>
+    <id>org.mazakodron.svg.punktowator</id>
+	<dependency type="executable" location="extensions">mazakodron_punktowator.py</dependency>
+        <dependency type="executable" location="extensions">mazakodron.py</dependency>
+    <output>
+        <extension>.mzkdrn</extension>
+        <mimetype>image/mazakodron</mimetype>
+        <_filetypename>Mazakodron 3000 commands (*.mzkdrn)</_filetypename>
+        <_filetypetooltip>Commands for Mazakodron 3000 drawing robot</_filetypetooltip>
+        <dataloss>true</dataloss>
+    </output>
+    <script>
+        <command reldir="extensions"
+        interpreter="python">mazakodron_punktowator.py</command>
+    </script>
+</inkscape-extension>
