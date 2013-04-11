@@ -25,7 +25,14 @@ def bezier_points(curve, a, eps):	# krzywa beziera o danym t, przy dokladnosci a
 		right = 1
 		while(dist2(curve, p, right) < a**2):
 			right *= 2
+		olda = None
+		oldb = None
 		while(abs(func(curve, p, right, a))-eps > 0 and abs(func(curve,p,left-right,a))-eps > 0):
+			if olda == abs(func(curve, p, right, a))-eps and oldb == abs(func(curve,p,left-right,a))-eps:
+			  # ouch, it's broken
+			  break
+			olda = abs(func(curve, p, right, a))-eps
+			oldb = abs(func(curve,p,left-right,a))-eps
 			middle = (right+left)/2.0
 			if(func(curve,p,left,a)*func(curve,p,middle,a)<0):
 				right = middle
@@ -76,7 +83,6 @@ if __name__ == "__main__":
 	mazak.load(filename)	# ladujemy plik SVG
 	mazak.loadPaths()	# ladujemy sciezki
 	print "START"		# start rysowania
-	
 	P = complex(0,0)
 
 	for path in mazak.getPaths():	# przerabianie sciezek na punkty
