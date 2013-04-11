@@ -130,6 +130,9 @@ if __name__ == "__main__":
 					points = bezier_points(el, a, eps)
 				for p in points:
 					print "%(x)f %(y)f" % {"x":p.real+mazak.xoffset, "y":p.imag+mazak.yoffset}
+			else:
+				print "PODNIES"
+				continue
 			# ostatni punkt sciezki staje sie punktem z ktorego przejezdzamy do kolejnego
 			P = points[-1]
 			# podnies mazak

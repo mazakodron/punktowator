@@ -32,8 +32,8 @@ class Mazakodron:
 	def load(self, svgFile):	# zaladuj plik o nazwie svgFile
 		try:
 			self.tree = et.parse(svgFile)					# wczytaj elementy XML
-			self.docWidth = int(self.tree.getroot().get('width'))		# pobierz szerokosc dokumentu
-			self.docHeight = int(self.tree.getroot().get('height'))		# pobierz wysokosc dokumentu
+			self.docWidth = int(float(self.tree.getroot().get('width')))		# pobierz szerokosc dokumentu
+			self.docHeight = int(float(self.tree.getroot().get('height')))		# pobierz wysokosc dokumentu
 			if self.docWidth > self.docHeight:	# "obroc kartke" aby dopasowac do dokumentu
 				self.sheetWidth, self.sheetHeight = self.sheetHeight, self.sheetWidth
 			
