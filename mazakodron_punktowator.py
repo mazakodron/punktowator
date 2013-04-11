@@ -78,7 +78,7 @@ if __name__ == "__main__":
 		filename = argv[1]
 	except IndexError:
 		raise AssertionError('Brak nazwy pliku')	# chronimy sie przed zapominalstwem uzytkownikow ;)
-	a = 2		# dokladnosc rysowania w milimetrach
+	a = 1.767		# dokladnosc rysowania w milimetrach
 	eps = 0.001	# stala zaokraglen numerycznych
 
 	mazak = Mazakodron()

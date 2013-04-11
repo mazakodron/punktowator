@@ -12,7 +12,7 @@ P = complex(0,0)
 while line:
 	if line.find('START') != -1:
 		print line,
-	elif line.find('RYSUJ') != -1:
+	elif line.find('OPUSC') != -1:
 		print line,
 	elif line.find('PODNIES') != -1:
 		print line,
