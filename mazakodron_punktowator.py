@@ -5,6 +5,8 @@ from mazakodron import *
 from svg.path import *
 from sys import argv
 
+DEBUG = False
+
 def dist2(curve, p, t):	# odleglosc podniesiona do kwadratu
 	return (p.real - curve.point(t).real)**2 + (p.imag - curve.point(t).imag)**2
 
@@ -46,7 +48,7 @@ def bezier_points(curve, a, eps):	# krzywa beziera o danym t, przy dokladnosci a
 	if lastt.imag - p.imag == 0:	# przypadki szczegolne - punkty wspolliniowe
 		AB = a
 	else:				# tu juz normalny przypadek
-		AB = float(a*abs(lastt.real-p.real))/float(d)	# z twierdzenia Talesa
+		AB = float(a*eps*abs(lastt.real-p.real))/float(d)	# z twierdzenia Talesa
 	if lastt.real - p.real == 0:	# kolejny wspomniany przypadek szczegolny
 		BC = a
 	else:				# ...i znow normalny
@@ -76,7 +78,7 @@ if __name__ == "__main__":
 		filename = argv[1]
 	except IndexError:
 		raise AssertionError('Brak nazwy pliku')	# chronimy sie przed zapominalstwem uzytkownikow ;)
-	a = 10		# dokladnosc rysowania w milimetrach
+	a = 2		# dokladnosc rysowania w milimetrach
 	eps = 0.001	# stala zaokraglen numerycznych
 
 	mazak = Mazakodron()
@@ -84,6 +86,8 @@ if __name__ == "__main__":
 	mazak.loadPaths()	# ladujemy sciezki
 	print "START"		# start rysowania
 	P = complex(0,0)
+
+	opuszczony = False
 
 	for path in mazak.getPaths():	# przerabianie sciezek na punkty
 		for el in path:
@@ -95,7 +99,8 @@ if __name__ == "__main__":
 			if line.start != line.end:
 				linepoints = bezier_points(line, a, eps)
 				for point in linepoints:
-					print "%(x)f %(y)f" % {"x": point.real, "y":point.imag}
+					if not DEBUG or opuszczony:
+						print "%(x)f %(y)f" % {"x": point.real, "y":point.imag}
 				last = complex(0,0)
 				if P == complex(0,0):
 					last = complex(linepoints[-1].real-mazak.xoffset,linepoints[-1].imag-mazak.yoffset)
@@ -106,6 +111,7 @@ if __name__ == "__main__":
 				mazak.yoffset += last.imag - el.start.imag
 			# opusc mazak
 			print "OPUSC"
+			opuszczony = True
 			
 			# sprawdz rodzaj sciezki
 			ptype = str(type(el))
@@ -137,4 +143,5 @@ if __name__ == "__main__":
 			P = points[-1]
 			# podnies mazak
 			print "PODNIES"
+			opuszczony = False
 	print "KONIEC"
