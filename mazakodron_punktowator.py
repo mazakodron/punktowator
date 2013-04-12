@@ -44,31 +44,32 @@ def bezier_points(curve, a, eps):	# krzywa beziera o danym t, przy dokladnosci a
 		p = curve.point(t)
 		points.append(p)
 	lastt = curve.point(1)
-	d = distance(p, lastt)		# tu sie zaczyna magia. Jako ze mozemy pozostawic na koncu odcinek o dlugosci (dlugosc_luku mod a), to musimy dorysowac dodatkowy odcinek ktory bedzie szedl przez ostatni wyliczony punkt i punkt konczacy krzywa oraz mial dlugosc 'a'. W tym celu korzystamy z twierdzenia Talesa i podobienstwa trojkatow
-	if lastt.imag - p.imag == 0:	# przypadki szczegolne - punkty wspolliniowe
-		AB = a
-	else:				# tu juz normalny przypadek
-		AB = float(a*eps*abs(lastt.real-p.real))/float(d)	# z twierdzenia Talesa
-	if lastt.real - p.real == 0:	# kolejny wspomniany przypadek szczegolny
-		BC = a
-	else:				# ...i znow normalny
-		BC = float(AB*abs(lastt.imag - p.imag)) / float(abs(p.real - lastt.real))	# z podobienstwa trojkatow
-	lastx = 0
-	lasty = 0
+	d = distance(p, lastt)			# tu sie zaczyna magia. Jako ze mozemy pozostawic na koncu odcinek o dlugosci (dlugosc_luku mod a), to musimy dorysowac dodatkowy odcinek ktory bedzie szedl przez ostatni wyliczony punkt i punkt konczacy krzywa oraz mial dlugosc 'a'. W tym celu korzystamy z twierdzenia Talesa i podobienstwa trojkatow
+	if d >= a/2:				# z tym, że dodajemy ten punkt tylko wtedy, gdy to się w ogóle opłaca - długość ostatniego odcinka przekracza połowę dokładności 
+		if lastt.imag - p.imag == 0:	# przypadki szczegolne - punkty wspolliniowe
+			AB = a
+		else:				# tu juz normalny przypadek
+			AB = float(a*eps*abs(lastt.real-p.real))/float(d)	# z twierdzenia Talesa
+		if lastt.real - p.real == 0:	# kolejny wspomniany przypadek szczegolny
+			BC = a
+		else:				# ...i znow normalny
+			BC = float(AB*abs(lastt.imag - p.imag)) / float(abs(p.real - lastt.real))	# z podobienstwa trojkatow
+		lastx = 0
+		lasty = 0
 
-	# sgn to znak, ktory okresla po ktorej stronie ma sie znalezc punkt
-	if(p.real > lastt.real):
-		sgn = 1
-	else:
-		sgn = -1
-	lastx = p.real + sgn * AB
-	if(p.imag > lastt.imag):
-		sgn = 1
-	else:
-		sgn = -1
-	lasty = p.imag + sgn * BC
-	last = complex(lastx,lasty)
-	points.append(last)
+		# sgn to znak, ktory okresla po ktorej stronie ma sie znalezc punkt
+		if(p.real > lastt.real):
+			sgn = 1
+		else:
+			sgn = -1
+		lastx = p.real + sgn * AB
+		if(p.imag > lastt.imag):
+			sgn = 1
+		else:
+			sgn = -1
+		lasty = p.imag + sgn * BC
+		last = complex(lastx,lasty)
+		points.append(last)
 
 	return points
 
