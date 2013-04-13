@@ -1,4 +1,6 @@
 #!/usr/bin/python2
+#-*-coding: UTF-8 -*-
+
 from math import floor
 from math import sqrt
 from mazakodron import *

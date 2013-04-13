@@ -1,3 +1,6 @@
+#!/usr/bin/python2
+#-*-coding: UTF-8 -*-
+
 from svg.path import *			# do przerabiania sciezek
 import xml.etree.ElementTree as et	# do ladowania XMLa z pliku SVG
 
