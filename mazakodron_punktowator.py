@@ -87,7 +87,7 @@ if __name__ == "__main__":
 	mazak = Mazakodron()
 	mazak.load(filename)	# ladujemy plik SVG
 	mazak.loadPaths()	# ladujemy sciezki
-	print "START"		# start rysowania
+	print("START")		# start rysowania
 	P = complex(0,0)
 
 	opuszczony = False
@@ -103,7 +103,7 @@ if __name__ == "__main__":
 				linepoints = bezier_points(line, a, eps)
 				for point in linepoints:
 					if not DEBUG or opuszczony:
-						print "%(x)f %(y)f" % {"x": point.real, "y":point.imag}
+						print("%(x)f %(y)f" % {"x": point.real, "y":point.imag})
 				last = complex(0,0)
 				if P == complex(0,0):
 					last = complex(linepoints[-1].real-mazak.xoffset,linepoints[-1].imag-mazak.yoffset)
@@ -113,7 +113,7 @@ if __name__ == "__main__":
 				mazak.xoffset += last.real - el.start.real
 				mazak.yoffset += last.imag - el.start.imag
 			# opusc mazak
-			print "OPUSC"
+			print("OPUSC")
 			opuszczony = True
 			
 			# sprawdz rodzaj sciezki
@@ -125,26 +125,26 @@ if __name__ == "__main__":
 			if ptype == "CubicBezier":
 				points = bezier_points(el, a, eps)
 				for p in points:
-					print "%(x)f %(y)f" % {"x":p.real+mazak.xoffset, "y":p.imag+mazak.yoffset}
+					print("%(x)f %(y)f" % {"x":p.real+mazak.xoffset, "y":p.imag+mazak.yoffset})
 			elif ptype == "QuadraticBezier":
 				points = bezier_points(el, a, eps)
 				for p in points:
-					print "%(x)f %(y)f" % {"x":p.real+mazak.xoffset, "y":p.imag+mazak.yoffset}
+					print("%(x)f %(y)f" % {"x":p.real+mazak.xoffset, "y":p.imag+mazak.yoffset})
 			#elif ptype == "Arc":
-			#	print "Arc"
+			#	print("Arc")
 			elif ptype == "Line":
 				if el.start == el.end:
 					points = [el.start]
 				else:
 					points = bezier_points(el, a, eps)
 				for p in points:
-					print "%(x)f %(y)f" % {"x":p.real+mazak.xoffset, "y":p.imag+mazak.yoffset}
+					print("%(x)f %(y)f" % {"x":p.real+mazak.xoffset, "y":p.imag+mazak.yoffset})
 			else:
-				print "PODNIES"
+				print("PODNIES")
 				continue
 			# ostatni punkt sciezki staje sie punktem z ktorego przejezdzamy do kolejnego
 			P = points[-1]
 			# podnies mazak
-			print "PODNIES"
+			print("PODNIES")
 			opuszczony = False
-	print "KONIEC"
+	print("KONIEC")
