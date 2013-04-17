@@ -81,8 +81,8 @@ if __name__ == "__main__":
 		filename = argv[1]
 	except IndexError:
 		raise AssertionError('Brak nazwy pliku')	# chronimy sie przed zapominalstwem uzytkownikow ;)
-	a = 1.767		# dokladnosc rysowania w milimetrach
-	eps = 0.001	# stala zaokraglen numerycznych
+	a = 0.220875		# dokladnosc rysowania w milimetrach
+	eps = 0.0001	# stala zaokraglen numerycznych
 
 	mazak = Mazakodron()
 	mazak.load(filename)	# ladujemy plik SVG
@@ -110,8 +110,8 @@ if __name__ == "__main__":
 				else:
 					last = linepoints[-1]
 				# wyrownujemy sciezki tak, aby przesuniecie wynikajace z zaokraglenia trasy przejazdu do wielokrotnosci dokladnosci nie powodowaly bledow przesuniec
-				mazak.xoffset += last.real - el.start.real
-				mazak.yoffset += last.imag - el.start.imag
+				#mazak.xoffset += last.real - el.start.real
+				#mazak.yoffset += last.imag - el.start.imag
 			# opusc mazak
 			print("OPUSC")
 			opuszczony = True
